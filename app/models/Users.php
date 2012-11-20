@@ -2,7 +2,8 @@
 
 namespace app\models;
 
-class Users extends \lithium\data\Model {
+class Users extends \lithium\data\Model
+{
     protected $_schema = array(
         '_id' => array('type' => 'id'),
         'username' => array('type' => 'string', 'null' => false),
@@ -11,7 +12,8 @@ class Users extends \lithium\data\Model {
     );
 
     /**
-     * Verify signature
+     * Generate a signature given a payload (POST/GET data from a request)
+     * This signature is used to handle authentication
      *
      * @param object $entity
      * @param array $payload

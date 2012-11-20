@@ -8,6 +8,11 @@
 require __DIR__ . '/bootstrap/libraries.php';
 
 /**
+ * Connections
+ */
+require __DIR__ . '/bootstrap/connections.php';
+
+/**
  * This file defines authentication and the basics needed for the request signing
  */
 require __DIR__ . '/bootstrap/auth.php';
