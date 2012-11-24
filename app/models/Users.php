@@ -13,7 +13,7 @@ class Users extends \lithium\data\Model
 
     /**
      * Generate a signature given a payload (POST/GET data from a request)
-     * This signature is used to handle authentication
+     * Using the `apiKey` as a shared key to generate a sha1 with the data
      *
      * @param object $entity
      * @param array $payload
