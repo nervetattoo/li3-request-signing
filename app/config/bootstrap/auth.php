@@ -35,7 +35,7 @@ Auth::applyFilter('check', function($self, $params, $chain)
             $signData = $request->is('get')
                 ? array_diff_key($request->query, array('url' => 'sodoff'))
                 : $request->data;
-            array_unshift($signData, $request->env('REQUEST_URI'));
+            array_unshift($signData, $request->env('base'));
 
             if ($signature === $user->sign($signData)) {
                 /**

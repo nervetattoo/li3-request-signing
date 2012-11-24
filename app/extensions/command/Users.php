@@ -24,7 +24,7 @@ class Users extends \lithium\console\Command
      * Path in API requests
      * @var string
      */
-    public $path = '/li3-request-signing/';
+    public $path = '/li3-request-signing';
 
     protected function _init()
     {
@@ -49,19 +49,33 @@ class Users extends \lithium\console\Command
 
     /**
      * List users through API
+     * Play around with changing the value of `q` to see
+     * how the sent signature is unique for each combination of query paramters
+     *
+     * @param int $userId Id of user to make API call as
+     * @param string $q Add a `q` argument to the URL to see it change
      */
-    public function consume($userId = false)
+    public function consume($userId = false, $q = '')
     {
         if (!$userId) $this->error("Missing userId");
 
         $user = Model::first($userId);
 
+        $signature = $user->sign(array($this->path, 'q' => $q));
+
+        $this->header("Generating different signatures for different urls");
+        $this->columns(array(
+            array('Path', 'Username', 'Signature'),
+            array('/', $user->username, $user->sign(array('/', 'q' => $q))),
+            array($this->path, $user->username, $signature)
+        ));
+
         $service = new Service(array('host' => $this->host));
-        $resp = $service->get($this->path, array(), array(
+        $resp = $service->get($this->path, compact('q'), array(
             'type' => 'json',
             'headers' => array(
                 'X_USERNAME' => $user->username,
-                'X_SIGNATURE' => $user->sign(array($this->path))
+                'X_SIGNATURE' => $signature
             )
         ));
         print_r($resp);

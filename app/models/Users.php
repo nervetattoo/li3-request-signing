@@ -23,7 +23,7 @@ class Users extends \lithium\data\Model
         ksort($payload);
         $message = '';
         foreach ($payload as $k => $v) {
-            if (!is_array($v))
+            if (!is_array($v) && !empty($v))
                 $message .= $k.$v;
         }
 
