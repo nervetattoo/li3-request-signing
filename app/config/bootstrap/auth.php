@@ -62,11 +62,7 @@ Auth::applyFilter('check', function($self, $params, $chain)
             array_unshift($signData, $request->env('base'));
 
             if ($signature === $user->sign($signData)) {
-                /**
-                 * We have a successfully signed request, set user as authed
-                 * `$params['name']` is the name of the auth used
-                 */
-                return Auth::set($params['name'], $user->data());
+                return true;
             }
             else {
                 throw new \Exception("Signature match failed in signed request");
